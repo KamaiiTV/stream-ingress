@@ -1,0 +1,18 @@
+services:
+  stream-ingress:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    ports:
+      - "127.0.0.1:1935:1935/udp"
+      - "127.0.0.1:1935:1935/tcp"
+      - "127.0.0.1:8080:8080/tcp"
+    volumes:
+      - ./nginx:/etc/nginx
+  redis:
+      image: redis:latest
+      ports:
+          - 6379:6379
+      volumes:
+          - ./config/redis.conf:/redis.conf
+      command: [ "redis-server", "/redis.conf" ]
